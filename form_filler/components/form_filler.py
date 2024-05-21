@@ -28,8 +28,8 @@ class Form_filler:
         for index, row in df.iterrows():
             self.get_form(form)
             self.driver.implicitly_wait(random.randint(10, 15))
-            time.sleep(0.5)
-            elements = self.driver.find_elements(By.XPATH, '//input[contains(@class, "whsOnd zHQkBf")]')
+            time.sleep(2)
+            elements = self.driver.find_elements(By.XPATH, "//input[contains(@type, 'text') and not(contains(@aria-label, 'Other'))]")
             # Access each cell in the row
             i = 0
             for col in df.columns:
@@ -40,14 +40,12 @@ class Form_filler:
                     option_tickboxes[row[col]].click()
                 i+=1
             multiple_tickboxes = self.driver.find_elements(By.XPATH, '//div[contains(@class, "geS5n")]//span[contains(text(), "Multiple choices")]//ancestor::div[contains(@class, "geS5n")]//div[contains(@role, "checkbox")]')
-            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             clicked = False
             while not clicked:
-                for i in range(4):
+                for i in range(0, 4):
                     if random.randint(0, 1):
                         multiple_tickboxes[i].click()
                         clicked = True
-                
             button = self.driver.find_element(By.XPATH, "//span[contains(text(), 'Gư')]/ancestor::div[contains(@role, 'button')]")
             button.click()
-            time.sleep(0.5)
+            time.sleep(1)
